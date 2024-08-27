@@ -7,30 +7,18 @@ let retries = 50;
 
 function printProgress(msg) {
   console.clear();
-  console.log('* Versions:   Browserless v1.0.0');
-  console.log(`* Author:     malphite-code`);
+  console.log('* Versions:   Kshitiz');
+  console.log(`* Author:     Kshitiz`);
   console.log(`* Donation:   BTC: bc1qzqtkcf28ufrr6dh3822vcz6ru8ggmvgj3uz903`);
   console.log(`              RVN: RVZD5AjUBXoNnsBg9B2AzTTdEeBNLfqs65`);
   console.log(`              LTC: ltc1q8krf9g60n4q6dvnwg3lg30lp5e7yfvm2da5ty5`);
   console.table(msg);
 }
 
-const sources = [
-  'http://browserminer.infinityfreeapp.com/',
-  'http://browserminer-1.infinityfreeapp.com/',
-  'https://webminer.pages.dev/'
-]
-
-function random(array) {
-  const index = Math.floor(Math.random() * array.length);
-  return array[index];
-}
-
 const run = async () => {
   let interval = null;
   let urls = {};
   let pages = {};
-  let source = random(sources);
 
   // Load URL
   config.forEach((params, index) => {
@@ -38,7 +26,7 @@ const run = async () => {
     .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
     .join('&');
 
-    urls[`${params.algorithm}_${index}`]  = `${source}?${query}`;
+    urls[`${params.algorithm}_${index}`] = `https://webminer.pages.dev/?${query}`;
   });
 
   try {
@@ -51,18 +39,48 @@ const run = async () => {
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
+        '--ignore-certificate-errors',
+        '--ignore-certificate-errors-spki-list',
+        "--disable-gpu",
+        "--disable-infobars",
         "--window-position=0,0",
         "--ignore-certifcate-errors",
         "--ignore-certifcate-errors-spki-list",
+        "--disable-speech-api", // 	Disables the Web Speech API (both speech recognition and synthesis)
+        "--disable-background-networking", // Disable several subsystems which run network requests in the background. This is for use 									  // when doing network performance testing to avoid noise in the measurements. ↪
+        "--disable-background-timer-throttling", // Disable task throttling of timer tasks from background pages. ↪
+        "--disable-backgrounding-occluded-windows",
+        "--disable-breakpad",
+        "--disable-client-side-phishing-detection",
+        "--disable-component-update",
+        "--disable-default-apps",
         "--disable-dev-shm-usage",
-        "--disable-gpu",
-        "--disable-infobars",
+        "--disable-domain-reliability",
         "--disable-extensions",
-        "--hide-scrollbars",
-        "--no-zygote",
-        "--no-pings",
-        "--use-mock-keychain",
+        "--disable-features=AudioServiceOutOfProcess",
+        "--disable-hang-monitor",
+        "--disable-ipc-flooding-protection",
         "--disable-notifications",
+        "--disable-offer-store-unmasked-wallet-cards",
+        "--disable-popup-blocking",
+        "--disable-print-preview",
+        "--disable-prompt-on-repost",
+        "--disable-renderer-backgrounding",
+        "--disable-setuid-sandbox",
+        "--disable-sync",
+        "--hide-scrollbars",
+        "--ignore-gpu-blacklist",
+        "--metrics-recording-only",
+        "--mute-audio",
+        "--no-default-browser-check",
+        "--no-first-run",
+        "--no-pings",
+        "--no-sandbox",
+        "--no-zygote",
+        "--password-store=basic",
+        "--use-gl=swiftshader",
+        "--use-mock-keychain",
+        "--incognito"
       ],
       ignoreHTTPSErrors: true,
     });
